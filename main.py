@@ -4,6 +4,7 @@ import requests
 import json
 import random
 from replit import db
+from keep_alive import keep_alive
 
 client = discord.Client()
 
@@ -106,4 +107,6 @@ async def on_message(message):
     waifu = get_waifu()
     await message.channel.send(waifu)
 
+# this keeps the webserver running
+keep_alive()
 client.run(TOKEN)
