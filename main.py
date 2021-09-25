@@ -15,7 +15,8 @@ starter_sussy_replies = [
   "SUSSY AMOGUS?"
 ]
 
-
+if "responding" not in db.keys():
+  db["responding"] = True
 
 def get_quote():
   response = requests.get("https://zenquotes.io/api/random")
@@ -63,13 +64,14 @@ async def on_message(message):
     quote = get_quote()
     await message.channel.send(quote)
 
-  options = starter_sussy_replies
-  if "sussy_replies" in db.keys():
-    options.extend(db["sussy_replies"])
-    # options = options + db["sussy_replies"]
+  if db["responding"]:
+    options = starter_sussy_replies
+    if "sussy_replies" in db.keys():
+      options.extend(db["sussy_replies"])
+      # options = options + db["sussy_replies"]
 
-  if any(word in msg for word in sus_words):
-    await message.channel.send(random.choice(options))
+    if any(word in msg for word in sus_words):
+      await message.channel.send(random.choice(options))
 
   if msg.startswith("$new"):
     sussy_reply = msg.split("$new ",1)[1]
@@ -83,6 +85,22 @@ async def on_message(message):
       delete_sussy_reply(index)
       sussy_replies = db["sussy_replies"]
     await message.channel.send(sussy_replies)
+
+  if msg.startswith("$list"):
+    sussy_replies = []
+    if "sussy_replies" in db.keys():
+      sussy_replies = db["sussy_replies"]
+    await message.channel.send(sussy_replies)
+
+  if msg.startswith("$responding"):
+    value = msg.split("$responding ",1)[1]
+
+    if value.lower() =="true":
+      db["responding"]= False
+      await message.channel.send("Responding is on")
+    else:
+      db["responding"]= False
+      await message.channel.send("Responding is off")
 
   if message.content.startswith('$wink'):
     waifu = get_waifu()
