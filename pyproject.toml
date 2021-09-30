@@ -1,7 +1,7 @@
 [tool.poetry]
-name = "repl_python3_beta_Encourage-Bot"
+name = "repl_python3_beta_C3-Bot"
 version = "0.1.0"
-description = ""
+description = "Python bot by countchrisdo"
 authors = ["countchrisdo <<>>"]
 
 [tool.poetry.dependencies]

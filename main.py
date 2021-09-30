@@ -3,19 +3,19 @@ import discord
 import requests
 import json
 from discord.ext import commands
-from replit import db
+# importing replit database
+# from replit import db
 from keep_alive import keep_alive
-from music import Player
+import music
+
+cogs = [music]
 
 client = discord.Client()
 
-intents = discord.Intents.default()
-intents.members = True
+# client = commands.Bot(command_prefix='?', intents = discord.Intents.all())
 
-bot = commands.Bot(command_prefix="$", intents=intents)
-
-if "responding" not in db.keys():
-  db["responding"] = True
+for i in range(len(cogs)):
+  cogs[i].setup(client)
 
 def get_quote():
   response = requests.get("https://zenquotes.io/api/random")
@@ -23,20 +23,15 @@ def get_quote():
   quote = json_data[0]['q'] + " -" + json_data[0]['a']
   return(quote)
 
-
 def get_waifu():
   response = requests.get("https://api.waifu.pics/sfw/wink")
   json_data = json.loads(response.text)
   waifu = "*LOADING WINK...* \n " + json_data['url']
   return(waifu)
 
-# @client.event
-# async def on_ready():
-#   print('We have logged in as {0.user}'.format(client))
-
-@bot.event
+@client.event
 async def on_ready():
-  print("bot is ready.")
+  print('We have logged in as {0.user}'.format(client))
 
 
 @client.event
